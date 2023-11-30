@@ -35,7 +35,7 @@ function Product({navigation}): JSX.Element {
           onPress={() => navigation.navigate('Resultat', {id: 3})}>
           <View style={styles.contentCategorie}>
             <CategorieImage
-              imageSource={require('../assets/icons/hebergement_bleu.png')}
+              imageSource={require('../assets/icons/restaurant_blue.png')}
             />
           </View>
         </TouchableOpacity>

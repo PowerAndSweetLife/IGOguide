@@ -20,6 +20,7 @@ function Result({navigation, id}): JSX.Element {
   const [tab, setTab] = useState([]);
   const [page, setPage] = useState(1);
   const [initialisation, setInitialisation] = useState(true);
+  const [nomCategorie, setNomCategorie] = useState('');
   const [loadOrNot, setLoadOrNot] = useState(true);
   const ScrollViewRef = useRef();
   const getData = async () => {
@@ -67,6 +68,16 @@ function Result({navigation, id}): JSX.Element {
 
         // const data = await res.json();
         setTab(data[0]);
+        const nomc = data[0].categories_nom;
+
+        if (nomc == 'Où boire ?') {
+          setNomCategorie('Bar');
+        } else if (nomc == 'Où manger ?') {
+          setNomCategorie('Restaurant');
+        } else {
+          setNomCategorie(nomc);
+        }
+
         // console.log(data[0]);
         ScrollViewRef.current.scrollTo({y: 0, animated: false});
         setLoadOrNot(false);

@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import SearchBarDesign from '../components/SearchBarDesign';
 import Result from '../components/Result';
 import {useRoute} from '@react-navigation/native';
+import Categorie from '../components/Categorie';
 
 function ResultScreen({navigation}): JSX.Element {
   const route = useRoute();
@@ -11,7 +12,8 @@ function ResultScreen({navigation}): JSX.Element {
   return (
     <SafeAreaView>
       <Header navigation={navigation} />
-      <SearchBarDesign />
+      {/* <SearchBarDesign /> */}
+      <Categorie navigation={navigation} id={id} />
       <Result navigation={navigation} id={id} />
       {/* <Product /> */}
       {/* <Result/> */}
