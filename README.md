@@ -3,14 +3,16 @@
 
 Booking application for a client in Bordeaux
 
-
+## Introduction
+IGOguide is a booking application developed for a client in Bordeaux. This README provides instructions on how to install and use the application.
+## Prerequisites
+Make sure you have Node.js and npm installed.
 ## Automatic installation
 
 Install all packages
 ```bash
   npm install
 ```
-
 ## Manual installation
 Install React Native Async Storage
 
