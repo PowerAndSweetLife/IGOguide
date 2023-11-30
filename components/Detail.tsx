@@ -1,7 +1,7 @@
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import React, { useState, useEffect } from "react";
+import {faHeart} from '@fortawesome/free-regular-svg-icons';
+import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import React, {useState, useEffect} from 'react';
 
 import {
   ScrollView,
@@ -14,15 +14,15 @@ import {
   Button,
   Alert,
   ActivityIndicator,
-} from "react-native";
-import { BASE_URL, ONLINE_URL } from "../helper/URL";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+} from 'react-native';
+import {BASE_URL, ONLINE_URL} from '../helper/URL';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function Detail({ navigation, id }): JSX.Element {
-  const [nomForm, setNomForm] = useState("");
-  const [emailForm, setEmailForm] = useState("");
-  const [objetForm, setObjetForm] = useState("");
-  const [messageForm, setMessageForm] = useState("");
+function Detail({navigation, id}): JSX.Element {
+  const [nomForm, setNomForm] = useState('');
+  const [emailForm, setEmailForm] = useState('');
+  const [objetForm, setObjetForm] = useState('');
+  const [messageForm, setMessageForm] = useState('');
   const [loadOrNot, setLoadOrNot] = useState(true);
   const [activites, setActivites] = useState({});
 
@@ -30,18 +30,18 @@ function Detail({ navigation, id }): JSX.Element {
 
   const sendEmail = async () => {
     if (
-      nomForm === "" ||
-      emailForm === "" ||
-      objetForm === "" ||
-      messageForm === ""
+      nomForm === '' ||
+      emailForm === '' ||
+      objetForm === '' ||
+      messageForm === ''
     ) {
-      Alert.alert("Attention", "Certains champs sont obligatoires");
+      Alert.alert('Attention', 'Certains champs sont obligatoires');
     } else {
       try {
-        const res = await fetch(BASE_URL + "sendEmail", {
-          method: "POST",
+        const res = await fetch(BASE_URL + 'sendEmail', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             nom: nomForm,
@@ -55,25 +55,25 @@ function Detail({ navigation, id }): JSX.Element {
           const resultText = await res.text();
           const result = JSON.parse(resultText);
           if (result.success) {
-            Alert.alert("Succes", "Envoi avec succes !");
+            Alert.alert('Succes', 'Envoi avec succes !');
           } else {
-            Alert.alert("Attention", "E-mail non envoye!");
+            Alert.alert('Attention', 'E-mail non envoye!');
           }
         } else {
-          Alert.alert("Erreur !", "Re-essayer plus tard");
+          Alert.alert('Erreur !', 'Re-essayer plus tard');
         }
       } catch (error) {
-        Alert.alert("Erreur", "Erreur de connexion au serveur");
+        Alert.alert('Erreur', 'Erreur de connexion au serveur');
       }
     }
   };
 
   const getData = async () => {
     try {
-      const res = await fetch(BASE_URL + "getInfo", {
-        method: "POST",
+      const res = await fetch(BASE_URL + 'getInfo', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           id: id,
@@ -88,10 +88,10 @@ function Detail({ navigation, id }): JSX.Element {
         // const act = result.etablissements_activites;
         setActivites(JSON.parse(result[0].etablissements_activites));
       } else {
-        Alert.alert("Attention", "Aucune donnees !");
+        Alert.alert('Attention', 'Aucune donnees !');
       }
     } catch (error) {
-      Alert.alert("Erreur !", "Erreur de connexion au serveur !");
+      Alert.alert('Erreur !', 'Erreur de connexion au serveur !');
     }
   };
   useEffect(() => {
@@ -99,34 +99,37 @@ function Detail({ navigation, id }): JSX.Element {
   }, []);
 
   const addToFavorite = async () => {
-    const iduser = await AsyncStorage.getItem("id");
+    const iduser = await AsyncStorage.getItem('id');
 
-    // console.log(iduser, id);
-    try {
-      const resFav = await fetch(BASE_URL + "addToFavorite", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id_user: iduser,
-          id_etab: id,
-        }),
-      });
-      // console.log(resFav);
-      if (resFav.ok) {
-        const resultTextFav = await resFav.text();
-        const resultFav = JSON.parse(resultTextFav);
-        if (resultFav.success) {
-          Alert.alert("Succès", resultFav.message);
+    if (iduser === null) {
+      navigation.navigate('Connexion', {fromScreen: 'favorite', idresult: id});
+    } else {
+      try {
+        const resFav = await fetch(BASE_URL + 'addToFavorite', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id_user: iduser,
+            id_etab: id,
+          }),
+        });
+        // console.log(resFav);
+        if (resFav.ok) {
+          const resultTextFav = await resFav.text();
+          const resultFav = JSON.parse(resultTextFav);
+          if (resultFav.success) {
+            Alert.alert('Succès', resultFav.message);
+          } else {
+            Alert.alert('Attention', resultFav.message);
+          }
         } else {
-          Alert.alert("Attention", resultFav.message);
+          Alert.alert('Erreur !', 'Re-essayer !');
         }
-      } else {
-        Alert.alert("Erreur !", "Re-essayer !");
+      } catch (error) {
+        Alert.alert('Erreur !', 'Erreur de connexion au serveur !');
       }
-    } catch (error) {
-      Alert.alert("Erreur !", "Erreur de connexion au serveur !");
     }
   };
 
@@ -145,7 +148,7 @@ function Detail({ navigation, id }): JSX.Element {
                 source={{
                   uri:
                     ONLINE_URL +
-                    "publics/" +
+                    'publics/' +
                     JSON.parse(elem.etablissements_photo)[0],
                 }}
                 style={styles.header_image}
@@ -154,8 +157,7 @@ function Detail({ navigation, id }): JSX.Element {
                 style={styles.place_for_icon_right}
                 onPress={() => {
                   addToFavorite();
-                }}
-              >
+                }}>
                 <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
               </TouchableOpacity>
               {/* <TouchableOpacity style={styles.place_for_icon_left}>
@@ -167,14 +169,14 @@ function Detail({ navigation, id }): JSX.Element {
               <View style={styles.owner}>
                 <Image
                   source={
-                    elem.users_etablissement_logo == ""
+                    elem.users_etablissement_logo == ''
                       ? {
                           uri:
                             ONLINE_URL +
-                            "publics/" +
+                            'publics/' +
                             elem.users_etablissement_logo,
                         }
-                      : require("../assets/images/avatar.png")
+                      : require('../assets/images/avatar.png')
                   }
                   style={styles.image_owner}
                 />
@@ -193,13 +195,13 @@ function Detail({ navigation, id }): JSX.Element {
                 Informations sur les services inclus
               </Text>
               {Object.entries(activites).map(([a, b]) =>
-                b != null && b != "" ? (
+                b != null && b != '' ? (
                   <Text key={a}>
                     {a}: {b}
                   </Text>
                 ) : (
                   <Text key={a} />
-                )
+                ),
               )}
               <Text style={styles.services_inclus}>
                 Informations sur la localisation
@@ -212,19 +214,19 @@ function Detail({ navigation, id }): JSX.Element {
                 style={styles.form_modif}
                 placeholder="Nom"
                 value={nomForm}
-                onChangeText={(text) => setNomForm(text)}
+                onChangeText={text => setNomForm(text)}
               />
               <TextInput
                 style={styles.form_modif}
                 placeholder="E-mail"
                 value={emailForm}
-                onChangeText={(text) => setEmailForm(text)}
+                onChangeText={text => setEmailForm(text)}
               />
               <TextInput
                 style={styles.form_modif}
                 placeholder="Objets"
                 value={objetForm}
-                onChangeText={(text) => setObjetForm(text)}
+                onChangeText={text => setObjetForm(text)}
               />
               <TextInput
                 value={messageForm}
@@ -232,7 +234,7 @@ function Detail({ navigation, id }): JSX.Element {
                 placeholder="Votre message"
                 multiline={true}
                 numberOfLines={4}
-                onChangeText={(text) => setMessageForm(text)}
+                onChangeText={text => setMessageForm(text)}
               />
               <Button
                 color="#e0a800"
@@ -251,46 +253,46 @@ function Detail({ navigation, id }): JSX.Element {
 
 const styles = StyleSheet.create({
   header: {
-    width: "100%",
+    width: '100%',
     height: 250,
   },
   header_image: {
     height: 250,
-    width: "100%",
-    resizeMode: "cover",
+    width: '100%',
+    resizeMode: 'cover',
   },
   place_for_icon_right: {
-    position: "absolute",
+    position: 'absolute',
     width: 30,
     height: 30,
     borderRadius: 200,
     right: 10,
     top: 10,
-    backgroundColor: "rgba(0,0,0,0.9)",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'rgba(0,0,0,0.9)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   place_for_icon_left: {
-    position: "absolute",
+    position: 'absolute',
     width: 30,
     height: 30,
     borderRadius: 200,
     left: 10,
     top: 10,
-    backgroundColor: "rgba(0,0,0,0.9)",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'rgba(0,0,0,0.9)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   icon_heart: {
-    color: "white",
+    color: 'white',
   },
   arrow: {
-    color: "white",
+    color: 'white',
   },
   information_box: {
     // justifyContent: 'center',
     // alignItems: 'center',
-    flexDirection: "row",
+    flexDirection: 'row',
     // height: 100,
     paddingTop: 10,
     paddingBottom: 10,
@@ -302,47 +304,47 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 200,
-    resizeMode: "cover",
-    backgroundColor: "white",
-    borderColor: "#dddddd",
+    resizeMode: 'cover',
+    backgroundColor: 'white',
+    borderColor: '#dddddd',
     borderWidth: 1,
   },
   owner: {
     // justifyContent: 'center',
-    alignItems: "center",
-    width: "20%",
+    alignItems: 'center',
+    width: '20%',
     // backgroundColor: 'red',
   },
   owner_info: {
     // backgroundColor: 'yellow',
-    width: "80%",
+    width: '80%',
     // justifyContent: 'center',
     // alignItems: 'center',
     padding: 2,
   },
   owner_name: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   divers: {
     // height: 300,
-    backgroundColor: "#f5eee6",
+    backgroundColor: '#f5eee6',
     padding: 15,
   },
   info_utile: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   services_inclus: {
-    color: "#cc9900",
+    color: '#cc9900',
   },
   contact_us: {
     marginTop: 5,
     padding: 15,
   },
   title_nous_contacter: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   form_modif: {
-    borderColor: "#dddddd",
+    borderColor: '#dddddd',
     borderWidth: 1,
     height: 35,
     paddingLeft: 10,
@@ -350,7 +352,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   text_area: {
-    borderColor: "#dddddd",
+    borderColor: '#dddddd',
     borderWidth: 1,
     paddingLeft: 10,
     paddingRight: 10,
@@ -358,8 +360,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   activity: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

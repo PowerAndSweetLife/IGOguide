@@ -20,7 +20,7 @@ function Header({navigation}): JSX.Element {
       const user = await AsyncStorage.getItem('id');
       if (user === null) {
         // Go to login
-        navigation.navigate('Connexion');
+        navigation.navigate('Connexion', {fromScreen: 'header'});
       } else {
         navigation.navigate('Favoris');
       }

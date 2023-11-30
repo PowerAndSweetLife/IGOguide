@@ -19,6 +19,7 @@ import HamburgerScreen from './Screens/HamburgerScreen';
 import Profil from './components/Profil';
 import ProfilScreen from './Screens/ProfilScreen';
 import FavorisScreen from './Screens/FavorisScreen';
+import SearchScreen from './Screens/SearchScreen';
 
 const Stack = createStackNavigator();
 
@@ -66,6 +67,11 @@ function App(): JSX.Element {
           name="Favoris"
           component={FavorisScreen}
           options={{headerShown: true}}
+        />
+        <Stack.Screen
+          name="SearchScreen"
+          component={SearchScreen}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,24 +1,70 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {TextInput} from 'react-native';
-import {StyleSheet, View, Text} from 'react-native';
+import {Alert, StyleSheet, View, Text, Pressable} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
+import {BASE_URL} from '../helper/URL';
 
-function SearchBarDesign(): JSX.Element {
+function SearchBarDesign({navigation}): JSX.Element {
+  const [motCle, setMotCle] = useState('');
+  const [lieu, setLieu] = useState('');
+  const doSearch = async () => {
+    if (motCle === '' && lieu === '') {
+      Alert.alert('Attention !', 'Remplir au moins un critère');
+    } else {
+      try {
+        // const res = await fetch(BASE_URL + 'globallySearch', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({
+        //     mc: motCle,
+        //     loc: lieu,
+        //   }),
+        // });
+        // if (res.ok) {
+        //   // console.log(res);
+        //   const resultatText = await res.text();
+        //   const result = JSON.parse(resultatText);
+
+        //   console.log(result);
+        // }
+        navigation.navigate('SearchScreen', {mc: motCle, loc: lieu});
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <View style={styles.searchBarContainer}>
       <Text style={styles.entete}>
         L'application qui vous trouve des loisirs
       </Text>
-      {/* <View style={styles.searchBar}>
-        <TextInput placeholder="Mot-clé" style={styles.textInput} />
-        <TextInput placeholder="Lieu" style={styles.textInput2} />
-        <FontAwesomeIcon
-          icon={faMagnifyingGlass}
-          size={20}
-          style={styles.iconReform}
+      <View style={styles.searchBar}>
+        <TextInput
+          placeholder="Mot-clé"
+          onChangeText={text => setMotCle(text)}
+          style={styles.textInput}
+          value={motCle}
         />
-      </View> */}
+        <TextInput
+          onChangeText={text => setLieu(text)}
+          placeholder="Lieu"
+          style={styles.textInput2}
+          value={lieu}
+        />
+        <Pressable
+          onPress={() => {
+            doSearch();
+          }}>
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            size={20}
+            style={styles.iconReform}
+          />
+        </Pressable>
+      </View>
     </View>
   );
 }

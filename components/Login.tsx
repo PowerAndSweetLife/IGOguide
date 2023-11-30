@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from 'react';
 import {
   Alert,
   Button,
@@ -7,25 +7,28 @@ import {
   Text,
   TextInput,
   View,
-} from "react-native";
-import { BASE_URL } from "../helper/URL";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+} from 'react-native';
+import {BASE_URL} from '../helper/URL';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useRoute} from '@react-navigation/native';
 
-function Login({ navigation }): JSX.Element {
-  const [email, setEmail] = useState("");
-  const [mdp, setMdp] = useState("");
+function Login({navigation}): JSX.Element {
+  const [email, setEmail] = useState('');
+  const [mdp, setMdp] = useState('');
+  const route = useRoute();
+  const {fromScreen, idresult} = route.params;
   const suscribe = () => {
-    navigation.navigate("Inscription");
+    navigation.navigate('Inscription');
   };
   const connect = async () => {
-    if (email === "" && mdp === "") {
-      Alert.alert("Attention", "Certains champs sont obligatoires");
+    if (email === '' && mdp === '') {
+      Alert.alert('Attention', 'Certains champs sont obligatoires');
     } else {
       try {
-        const res = await fetch(BASE_URL + "connectUser", {
-          method: "POST",
+        const res = await fetch(BASE_URL + 'connectUser', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             email: email,
@@ -40,34 +43,53 @@ function Login({ navigation }): JSX.Element {
 
           if (result.success) {
             // console.log("nety oh") ;
-            await AsyncStorage.setItem("id", result.data[0].users_id);
-            await AsyncStorage.setItem("mail", result.data[0].users_email);
-            await AsyncStorage.setItem("photo", result.data[0].users_photo);
-            const id = await AsyncStorage.getItem("id");
-            // console.log(id) ;
-            navigation.navigate("Home");
+            await AsyncStorage.setItem('id', result.data[0].users_id);
+            await AsyncStorage.setItem('mail', result.data[0].users_email);
+            await AsyncStorage.setItem('photo', result.data[0].users_photo);
+            const id = await AsyncStorage.getItem('id');
+            if (fromScreen === 'favorite') {
+              navigation.navigate('Détails', {id: idresult});
+            } else {
+              navigation.navigate('Home');
+            }
+
             // await AsyncStorage.setItem('userToken', token);
           } else {
             // navigation.navigate('Inscription') ;
-            const id = await AsyncStorage.getItem("id");
+            const id = await AsyncStorage.getItem('id');
+            console.log('Eto oh: ' + fromScreen);
             if (id !== null) {
-              navigation.navigate("Home");
+              if (fromScreen === 'favorite') {
+                navigation.navigate('Détails', {id: idresult});
+              } else {
+                navigation.navigate('Home');
+              }
             } else {
-              Alert.alert("Erreur !", "E-mail ou mot de passe incorrect");
+              Alert.alert('Erreur !', 'E-mail ou mot de passe incorrect');
             }
           }
         } else {
-          const id = await AsyncStorage.getItem("id");
+          const id = await AsyncStorage.getItem('id');
           if (id !== null) {
-            navigation.navigate("Home");
+            console.log('Eto oh: ' + fromScreen);
+            if (fromScreen === 'favorite') {
+              navigation.navigate('Détails', {id: idresult});
+            } else {
+              navigation.navigate('Home');
+            }
           } else {
-            Alert.alert("Erreur !", "Re-essayer plus tard");
+            Alert.alert('Erreur !', 'Re-essayer plus tard');
           }
         }
       } catch (error) {
-        const id = await AsyncStorage.getItem("id");
+        const id = await AsyncStorage.getItem('id');
         if (id !== null) {
-          navigation.navigate("Home");
+          console.log('Eto oh: ' + fromScreen);
+          if (fromScreen === 'favorite') {
+            navigation.navigate('Détails', {id: idresult});
+          } else {
+            navigation.navigate('Home');
+          }
         }
         // Alert.alert('Erreur !', 'Erreur de connexion au serveur !');
       }
@@ -80,10 +102,10 @@ function Login({ navigation }): JSX.Element {
           style={styles.inputReform}
           value={email}
           placeholder="E-mail"
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={text => setEmail(text)}
         />
         <TextInput
-          onChangeText={(text) => setMdp(text)}
+          onChangeText={text => setMdp(text)}
           value={mdp}
           secureTextEntry={true}
           style={styles.inputReform}
@@ -93,8 +115,7 @@ function Login({ navigation }): JSX.Element {
           onPress={() => {
             suscribe();
           }}
-          style={styles.s_inscrire}
-        >
+          style={styles.s_inscrire}>
           S'inscrire
         </Text>
         <Button
@@ -118,7 +139,7 @@ const styles = StyleSheet.create({
   },
   inputReform: {
     borderWidth: 1,
-    borderColor: "#dddddd",
+    borderColor: '#dddddd',
     marginBottom: 5,
     height: 40,
     paddingLeft: 10,
@@ -128,7 +149,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     fontSize: 15,
-    color: "#fec20b",
+    color: '#fec20b',
   },
 });
 

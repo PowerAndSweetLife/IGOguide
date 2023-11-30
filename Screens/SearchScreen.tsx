@@ -2,14 +2,18 @@ import React from 'react';
 import {SafeAreaView} from 'react-native';
 import Header from '../components/Header';
 import SearchBarDesign from '../components/SearchBarDesign';
-import Product from '../components/Product';
+import Result from '../components/Result';
+import {useRoute} from '@react-navigation/native';
+import ResultSearchBar from '../components/ResultSearchBar';
 
-function HomeScreen({navigation}): JSX.Element {
+function SearchScreen({navigation}): JSX.Element {
+  const route = useRoute();
   return (
     <SafeAreaView>
       <Header navigation={navigation} />
       <SearchBarDesign navigation={navigation} />
-      <Product navigation={navigation}/>
+      <ResultSearchBar navigation={navigation} />
+      {/* <Product /> */}
       {/* <Result/> */}
       {/* <Detail /> */}
       {/* <Login/> */}
@@ -18,4 +22,4 @@ function HomeScreen({navigation}): JSX.Element {
   );
 }
 
-export default HomeScreen;
+export default SearchScreen ;
