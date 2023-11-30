@@ -34,7 +34,7 @@ Install Screen and Safe Area Context
 ```bash
   npm install react-native-screens react-native-safe-area-context
 ```
-Note: react-native-screens package requires one additional configuration step to properly work on Android devices. Edit MainActivity.java file which is located in android/app/src/main/java/<your package name>/MainActivity.java.
+Note: react-native-screens package requires one additional configuration step to properly work on Android devices. Edit MainActivity.java file which is located in android/app/src/main/java/com/igoguide/MainActivity.java.
 Add the highlighted code to the body of MainActivity class:
 ```java
 public class MainActivity extends ReactActivity {
