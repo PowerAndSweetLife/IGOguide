@@ -71,7 +71,10 @@ function App(): JSX.Element {
         <Stack.Screen
           name="SearchScreen"
           component={SearchScreen}
-          options={{headerShown: false}}
+          options={{
+            headerShown: true,
+            headerTitle: 'Résultat des recherches',
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -25,7 +25,7 @@ function HamburgerScreen({navigation}): JSX.Element {
       const user = await AsyncStorage.getItem('userID');
       if (user === null) {
         // Go to login
-        navigation.navigate('Connexion');
+        navigation.navigate('Connexion', {fromScreen: ''});
       }
     } catch (error) {
       console.log(error);

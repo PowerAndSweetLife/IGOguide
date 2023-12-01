@@ -9,6 +9,7 @@ function SearchBarDesign({navigation}): JSX.Element {
   const [motCle, setMotCle] = useState('');
   const [lieu, setLieu] = useState('');
   const doSearch = async () => {
+    // console.log('hanao recherche !');
     if (motCle === '' && lieu === '') {
       Alert.alert('Attention !', 'Remplir au moins un critère');
     } else {

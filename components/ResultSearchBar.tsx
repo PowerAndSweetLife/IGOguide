@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import {BASE_URL, ONLINE_URL} from '../helper/URL';
 import {useRoute} from '@react-navigation/native';
-const maxHeight = Dimensions.get('window').height - 200;
+const maxHeight = Dimensions.get('window').height - 75;
 
 function ResultSearchBar({navigation}): JSX.Element {
   const route = useRoute();
@@ -36,6 +36,7 @@ function ResultSearchBar({navigation}): JSX.Element {
           loc: loc,
         }),
       });
+      // console.log(res) ;
       if (res.ok) {
         // console.log(res);
         const resultatText = await res.text();
@@ -196,6 +197,7 @@ function ResultSearchBar({navigation}): JSX.Element {
 }
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 25,
     paddingLeft: 25,
     paddingRight: 25,
     maxHeight: maxHeight,

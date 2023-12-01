@@ -10,8 +10,8 @@ function SearchScreen({navigation}): JSX.Element {
   const route = useRoute();
   return (
     <SafeAreaView>
-      <Header navigation={navigation} />
-      <SearchBarDesign navigation={navigation} />
+      {/* <Header navigation={navigation} /> */}
+      {/* <SearchBarDesign navigation={navigation} /> */}
       <ResultSearchBar navigation={navigation} />
       {/* <Product /> */}
       {/* <Result/> */}
@@ -22,4 +22,4 @@ function SearchScreen({navigation}): JSX.Element {
   );
 }
 
-export default SearchScreen ;
+export default SearchScreen;
