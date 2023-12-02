@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import {BASE_URL, ONLINE_URL} from '../helper/URL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import MapView, {Marker} from 'react-native-maps';
 
 function Detail({navigation, id}): JSX.Element {
   const [nomForm, setNomForm] = useState('');
@@ -247,6 +248,22 @@ function Detail({navigation, id}): JSX.Element {
           </View>
         ))
       )}
+      {/* <View>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}>
+          <Marker
+            coordinate={{latitude: 37.78825, longitude: -122.4324}}
+            title="Marker Title"
+            description="Marker Description"
+          />
+        </MapView>
+      </View> */}
     </ScrollView>
   );
 }
