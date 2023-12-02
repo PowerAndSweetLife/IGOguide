@@ -14,6 +14,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {BASE_URL, ONLINE_URL} from '../helper/URL';
+import FastImage from 'react-native-fast-image';
 const maxHeight = Dimensions.get('window').height - 200;
 
 function Result({navigation, id}): JSX.Element {
@@ -68,6 +69,7 @@ function Result({navigation, id}): JSX.Element {
 
         // const data = await res.json();
         setTab(data[0]);
+        console.log(data[0].length);
         const nomc = data[0].categories_nom;
 
         if (nomc == 'Où boire ?') {
@@ -104,7 +106,7 @@ function Result({navigation, id}): JSX.Element {
             }>
             <View style={styles.cardContainer}>
               <View style={styles.imageContainer}>
-                <Image
+                <FastImage
                   // source={require('../assets/images/img2.jpg')}
                   source={{
                     uri:
@@ -113,6 +115,7 @@ function Result({navigation, id}): JSX.Element {
                       JSON.parse(elem.etablissements_photo)[0],
                   }}
                   style={styles.imageToShow}
+                  resizeMode={FastImage.resizeMode.cover}
                 />
                 {/* <View style={styles.place_for_heart}>
                   <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
@@ -131,7 +134,8 @@ function Result({navigation, id}): JSX.Element {
                   </Text>
                 </Text>
                 <View style={styles.place_for_owner}>
-                  <Image
+                  <FastImage
+                    resizeMode={FastImage.resizeMode.cover}
                     source={
                       elem.users_etablissement_logo == ''
                         ? {
@@ -149,7 +153,8 @@ function Result({navigation, id}): JSX.Element {
             </View>
             <View style={styles.sous_categorie}>
               <View style={styles.imageContainer_sc}>
-                <Image
+                <FastImage
+                  resizeMode={FastImage.resizeMode.cover}
                   source={{
                     uri:
                       ONLINE_URL +

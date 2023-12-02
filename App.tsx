@@ -66,14 +66,14 @@ function App(): JSX.Element {
         <Stack.Screen
           name="Favoris"
           component={FavorisScreen}
-          options={{headerShown: true}}
+          options={{headerShown: true,headerTitle: 'Mes favoris'}}
         />
         <Stack.Screen
           name="SearchScreen"
           component={SearchScreen}
           options={{
             headerShown: true,
-            headerTitle: 'Résultat des recherches',
+            headerTitle: 'Résultat de recherche',
           }}
         />
       </Stack.Navigator>

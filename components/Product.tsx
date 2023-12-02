@@ -12,7 +12,8 @@ import {
 import CategorieImage from './CategorieImage';
 import {BASE_URL, ONLINE_URL} from '../helper/URL';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import { faLocationPin } from '@fortawesome/free-solid-svg-icons';
+import {faLocationPin} from '@fortawesome/free-solid-svg-icons';
+import FastImage from 'react-native-fast-image';
 const maxHeight = Dimensions.get('window').height - 415;
 function Product({navigation}): JSX.Element {
   const [tab, setTab] = useState([]);
@@ -117,7 +118,8 @@ function Product({navigation}): JSX.Element {
               }>
               <View style={styles.cardContainer}>
                 <View style={styles.imageContainer}>
-                  <Image
+                  <FastImage
+                    resizeMode={FastImage.resizeMode.cover}
                     // source={require('../assets/images/img2.jpg')}
                     source={{
                       uri:
@@ -146,7 +148,8 @@ function Product({navigation}): JSX.Element {
                     </Text>
                   </Text>
                   <View style={styles.place_for_owner}>
-                    <Image
+                    <FastImage
+                      resizeMode={FastImage.resizeMode.cover}
                       source={
                         elem.users_etablissement_logo == ''
                           ? {
@@ -164,7 +167,8 @@ function Product({navigation}): JSX.Element {
               </View>
               <View style={styles.sous_categorie}>
                 <View style={styles.imageContainer_sc}>
-                  <Image
+                  <FastImage
+                    resizeMode={FastImage.resizeMode.cover}
                     source={{
                       uri:
                         ONLINE_URL +

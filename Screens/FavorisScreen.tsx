@@ -15,7 +15,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHeart} from '@fortawesome/free-regular-svg-icons';
 import {faLocationPin} from '@fortawesome/free-solid-svg-icons';
 import {ScrollView} from 'react-native-gesture-handler';
-const maxHeight = Dimensions.get('window').height - 200;
+import FastImage from 'react-native-fast-image';
+const maxHeight = Dimensions.get('window').height - 75;
 function FavorisScreen({navigation}): JSX.Element {
   const ScrollViewRef = useRef();
   const [message, setMessage] = useState('');
@@ -73,7 +74,8 @@ function FavorisScreen({navigation}): JSX.Element {
               }>
               <View style={styles.cardContainer}>
                 <View style={styles.imageContainer}>
-                  <Image
+                  <FastImage
+                    resizeMode={FastImage.resizeMode.cover}
                     // source={require('../assets/images/img2.jpg')}
                     source={{
                       uri:
@@ -102,7 +104,8 @@ function FavorisScreen({navigation}): JSX.Element {
                     </Text>
                   </Text>
                   <View style={styles.place_for_owner}>
-                    <Image
+                    <FastImage
+                      resizeMode={FastImage.resizeMode.cover}
                       source={
                         elem.users_etablissement_logo == ''
                           ? {
@@ -120,7 +123,8 @@ function FavorisScreen({navigation}): JSX.Element {
               </View>
               <View style={styles.sous_categorie}>
                 <View style={styles.imageContainer_sc}>
-                  <Image
+                  <FastImage
+                    resizeMode={FastImage.resizeMode.cover}
                     source={{
                       uri:
                         ONLINE_URL +

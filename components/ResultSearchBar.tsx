@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import {BASE_URL, ONLINE_URL} from '../helper/URL';
 import {useRoute} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 const maxHeight = Dimensions.get('window').height - 75;
 
 function ResultSearchBar({navigation}): JSX.Element {
@@ -22,6 +23,7 @@ function ResultSearchBar({navigation}): JSX.Element {
   const {mc, loc} = route.params;
   //   console.log(mc);
   const [tab, setTab] = useState([]);
+  const [len, setLen] = useState(0);
   const [loadOrNot, setLoadOrNot] = useState(true);
   const ScrollViewRef = useRef();
   const getData = async () => {
@@ -41,7 +43,8 @@ function ResultSearchBar({navigation}): JSX.Element {
         // console.log(res);
         const resultatText = await res.text();
         const result = JSON.parse(resultatText);
-        console.log(result.data);
+        console.log(result.data.length);
+        setLen(result.data.length);
         setTab(result.data);
       }
       // const data = await res.json();
@@ -61,6 +64,14 @@ function ResultSearchBar({navigation}): JSX.Element {
   return (
     <ScrollView style={styles.container} ref={ScrollViewRef}>
       {loadOrNot ? (
+        <Text style={styles.textResultatRecherche}>En cours de recherche</Text>
+      ) : (
+        <Text style={styles.textResultatRecherche}>
+          {len} Resultats trouvés par Igoguide
+        </Text>
+      )}
+
+      {loadOrNot ? (
         <View style={styles.activity}>
           <ActivityIndicator color="#52b7c6" />
         </View>
@@ -74,7 +85,8 @@ function ResultSearchBar({navigation}): JSX.Element {
             }>
             <View style={styles.cardContainer}>
               <View style={styles.imageContainer}>
-                <Image
+                <FastImage
+                  resizeMode={FastImage.resizeMode.cover}
                   // source={require('../assets/images/img2.jpg')}
                   source={{
                     uri:
@@ -101,7 +113,8 @@ function ResultSearchBar({navigation}): JSX.Element {
                   </Text>
                 </Text>
                 <View style={styles.place_for_owner}>
-                  <Image
+                  <FastImage
+                    resizeMode={FastImage.resizeMode.cover}
                     source={
                       elem.users_etablissement_logo == ''
                         ? {
@@ -119,7 +132,8 @@ function ResultSearchBar({navigation}): JSX.Element {
             </View>
             <View style={styles.sous_categorie}>
               <View style={styles.imageContainer_sc}>
-                <Image
+                <FastImage
+                  resizeMode={FastImage.resizeMode.cover}
                   source={{
                     uri:
                       ONLINE_URL +
@@ -332,6 +346,12 @@ const styles = StyleSheet.create({
   activity: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  textResultatRecherche: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    textAlign: 'center',
+    marginBottom: 10,
   },
 });
 

@@ -48,12 +48,18 @@ function SearchBarDesign({navigation}): JSX.Element {
           onChangeText={text => setMotCle(text)}
           style={styles.textInput}
           value={motCle}
+          onSubmitEditing={() => {
+            doSearch();
+          }}
         />
         <TextInput
           onChangeText={text => setLieu(text)}
           placeholder="Lieu"
           style={styles.textInput2}
           value={lieu}
+          onSubmitEditing={() => {
+            doSearch();
+          }}
         />
         <Pressable
           onPress={() => {
