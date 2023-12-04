@@ -197,11 +197,13 @@ function Detail({navigation, id}): JSX.Element {
               </Text>
               {Object.entries(activites).map(([a, b]) =>
                 b != null && b != '' ? (
-                  <Text key={a}>
-                    {a}: {b}
-                  </Text>
+                  b === 'on' ? (
+                    <Text key={a}>{a}: Oui</Text>
+                  ) : (
+                    ''
+                  )
                 ) : (
-                  <Text key={a} />
+                  ''
                 ),
               )}
               <Text style={styles.services_inclus}>
@@ -244,6 +246,47 @@ function Detail({navigation, id}): JSX.Element {
                 }}
                 title="Envoyer"
               />
+            </View>
+            <View>
+              <Text
+                style={{
+                  paddingLeft: 20,
+                  paddingRight: 20,
+                  fontSize: 18,
+                  color: '#5faca5',
+                }}>
+                Voulez-vous en savoir plus sur la région ?
+              </Text>
+              <MapView
+                style={styles.maps}
+                initialRegion={{
+                  latitude: parseFloat(elem.etablissements_latitude),
+                  longitude: parseFloat(elem.etablissements_longitude),
+                  latitudeDelta: 0.05,
+                  longitudeDelta: 0.05,
+                }}
+                zoomControlEnabled={true}
+                showsMyLocationButton={true}>
+                <Marker
+                  coordinate={{
+                    latitude: parseFloat(elem.etablissements_latitude),
+                    longitude: parseFloat(elem.etablissements_longitude),
+                  }}
+                  title={elem.etablissements_nom} // Titre du marqueur
+                  description={elem.etablissements_adresse} // Description du marqueur
+                  // image={require('../assets/Epingles/act_50.png')}
+                >
+                  <Image
+                    source={{
+                      uri:
+                        ONLINE_URL +
+                        'publics/image/icon_android/' +
+                        elem.categories_map_icon,
+                    }}
+                    style={{width: 35, height: 40}}
+                  />
+                </Marker>
+              </MapView>
             </View>
           </View>
         ))
@@ -349,6 +392,7 @@ const styles = StyleSheet.create({
   },
   info_utile: {
     fontWeight: 'bold',
+    fontSize: 17,
   },
   services_inclus: {
     color: '#cc9900',
@@ -379,6 +423,12 @@ const styles = StyleSheet.create({
   activity: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  maps: {
+    width: '100%',
+    height: 400,
+    // backgroundColor: 'yellow',
+    marginTop: 15,
   },
 });
 

@@ -14,7 +14,7 @@ import {BASE_URL, ONLINE_URL} from '../helper/URL';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faLocationPin} from '@fortawesome/free-solid-svg-icons';
 import FastImage from 'react-native-fast-image';
-const maxHeight = Dimensions.get('window').height - 415;
+const maxHeight = Dimensions.get('window').height - 440;
 function Product({navigation}): JSX.Element {
   const [tab, setTab] = useState([]);
   const [loadOrNot, setLoadOrNot] = useState(true);
@@ -194,6 +194,8 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 10,
     flexWrap: 'wrap',
+    paddingLeft: 25,
+    paddingRight: 20,
     justifyContent: 'center',
     flexDirection: 'row',
   },
@@ -204,8 +206,8 @@ const styles = StyleSheet.create({
     paddingRight: 25,
   },
   contentCategorie: {
-    width: 80,
-    height: 80,
+    width: 105,
+    height: 105,
     marginRight: 5,
     marginLeft: 5,
     marginBottom: 10,
