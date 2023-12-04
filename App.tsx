@@ -20,6 +20,7 @@ import Profil from './components/Profil';
 import ProfilScreen from './Screens/ProfilScreen';
 import FavorisScreen from './Screens/FavorisScreen';
 import SearchScreen from './Screens/SearchScreen';
+import SousCategoriesScreen from './Screens/SousCategoriesScreen';
 
 const Stack = createStackNavigator();
 
@@ -66,7 +67,7 @@ function App(): JSX.Element {
         <Stack.Screen
           name="Favoris"
           component={FavorisScreen}
-          options={{headerShown: true,headerTitle: 'Mes favoris'}}
+          options={{headerShown: true, headerTitle: 'Mes favoris'}}
         />
         <Stack.Screen
           name="SearchScreen"
@@ -75,6 +76,11 @@ function App(): JSX.Element {
             headerShown: true,
             headerTitle: 'Résultat de recherche',
           }}
+        />
+        <Stack.Screen
+          name="SousCategories"
+          component={SousCategoriesScreen}
+          options={{headerShown: true, headerTitle: 'Sous-catégories'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

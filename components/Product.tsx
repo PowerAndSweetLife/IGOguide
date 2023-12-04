@@ -35,12 +35,12 @@ function Product({navigation}): JSX.Element {
       const data = JSON.parse(resultText);
       setTab(data.data);
       setLoadOrNot(false);
-      console.log(data.data);
+      // console.log(data.data);
       // } else {
       //   console.log('not ok');
       // }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -55,7 +55,7 @@ function Product({navigation}): JSX.Element {
       </Text>
       <View style={styles.content}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Resultat', {id: 1})}>
+          onPress={() => navigation.navigate('SousCategories', {id: 1})}>
           <View style={styles.contentCategorie}>
             <CategorieImage
               imageSource={require('../assets/icons/hebergement_bleu.png')}
@@ -63,7 +63,7 @@ function Product({navigation}): JSX.Element {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Resultat', {id: 2})}>
+          onPress={() => navigation.navigate('SousCategories', {id: 2})}>
           <View style={styles.contentCategorie}>
             <CategorieImage
               imageSource={require('../assets/icons/ou_boire_bleu.png')}
@@ -71,7 +71,7 @@ function Product({navigation}): JSX.Element {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Resultat', {id: 3})}>
+          onPress={() => navigation.navigate('SousCategories', {id: 3})}>
           <View style={styles.contentCategorie}>
             <CategorieImage
               imageSource={require('../assets/icons/restaurant_blue.png')}
@@ -79,7 +79,7 @@ function Product({navigation}): JSX.Element {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Resultat', {id: 4})}>
+          onPress={() => navigation.navigate('SousCategories', {id: 4})}>
           <View style={styles.contentCategorie}>
             <CategorieImage
               imageSource={require('../assets/icons/balades_bleu.png')}
@@ -87,7 +87,7 @@ function Product({navigation}): JSX.Element {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Resultat', {id: 5})}>
+          onPress={() => navigation.navigate('SousCategories', {id: 5})}>
           <View style={styles.contentCategorie}>
             <CategorieImage
               imageSource={require('../assets/icons/activites_bleu.png')}
@@ -95,7 +95,7 @@ function Product({navigation}): JSX.Element {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Resultat', {id: 6})}>
+          onPress={() => navigation.navigate('SousCategories', {id: 6})}>
           <View style={styles.contentCategorie}>
             <CategorieImage
               imageSource={require('../assets/icons/services_bleu.png')}
