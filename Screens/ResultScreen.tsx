@@ -8,13 +8,13 @@ import Categorie from '../components/Categorie';
 
 function ResultScreen({navigation}): JSX.Element {
   const route = useRoute();
-  const {id} = route.params;
+  const {id, sc} = route.params;
   return (
     <SafeAreaView>
-      <Header navigation={navigation} />
+      {/* <Header navigation={navigation} /> */}
       {/* <SearchBarDesign /> */}
       <Categorie navigation={navigation} id={id} />
-      <Result navigation={navigation} id={id} />
+      <Result navigation={navigation} id={id} sc={sc} />
       {/* <Product /> */}
       {/* <Result/> */}
       {/* <Detail /> */}

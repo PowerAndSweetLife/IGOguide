@@ -36,7 +36,7 @@ function App(): JSX.Element {
         <Stack.Screen
           name="Resultat"
           component={ResultScreen}
-          options={{headerShown: false}}
+          options={{headerShown: true, headerTitle: 'Résultats'}}
         />
         <Stack.Screen
           name="Détails"

@@ -17,7 +17,7 @@ import {BASE_URL, ONLINE_URL} from '../helper/URL';
 import FastImage from 'react-native-fast-image';
 const maxHeight = Dimensions.get('window').height - 200;
 
-function Result({navigation, id}): JSX.Element {
+function Result({navigation, id, sc}): JSX.Element {
   const [tab, setTab] = useState([]);
   const [page, setPage] = useState(1);
   const [initialisation, setInitialisation] = useState(true);
@@ -33,6 +33,7 @@ function Result({navigation, id}): JSX.Element {
         },
         body: JSON.stringify({
           id: id,
+          sc: sc,
         }),
       });
       const resultText = await res.text();
@@ -60,6 +61,7 @@ function Result({navigation, id}): JSX.Element {
           },
           body: JSON.stringify({
             id: id,
+            sc: sc,
             page: page,
           }),
         });

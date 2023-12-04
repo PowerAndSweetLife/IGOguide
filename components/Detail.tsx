@@ -262,8 +262,8 @@ function Detail({navigation, id}): JSX.Element {
                 initialRegion={{
                   latitude: parseFloat(elem.etablissements_latitude),
                   longitude: parseFloat(elem.etablissements_longitude),
-                  latitudeDelta: 0.05,
-                  longitudeDelta: 0.05,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
                 }}
                 zoomControlEnabled={true}
                 showsMyLocationButton={true}>

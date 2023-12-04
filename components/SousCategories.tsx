@@ -54,7 +54,14 @@ function SousCategories({navigation, id}): JSX.Element {
           // Display the content once data is fetched
           <View style={styles.content}>
             {dataSC.map((elem, index) => (
-              <TouchableOpacity key={index}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('Resultat', {
+                    id: id,
+                    sc: elem.sous_categories_id,
+                  })
+                }
+                key={index}>
                 <View style={styles.contentStyle}>
                   <FastImage
                     resizeMode={FastImage.resizeMode.contain}
