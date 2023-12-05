@@ -13,7 +13,7 @@ function ResultScreen({navigation}): JSX.Element {
     <SafeAreaView>
       {/* <Header navigation={navigation} /> */}
       {/* <SearchBarDesign /> */}
-      <Categorie navigation={navigation} id={id} />
+      {/* <Categorie navigation={navigation} id={id} /> */}
       <Result navigation={navigation} id={id} sc={sc} />
       {/* <Product /> */}
       {/* <Result/> */}

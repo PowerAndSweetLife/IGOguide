@@ -15,7 +15,8 @@ import {
 } from 'react-native';
 import {BASE_URL, ONLINE_URL} from '../helper/URL';
 import FastImage from 'react-native-fast-image';
-const maxHeight = Dimensions.get('window').height - 200;
+import MapView, {Callout, Marker} from 'react-native-maps';
+const maxHeight = Dimensions.get('window').height - 175;
 
 function Result({navigation, id, sc}): JSX.Element {
   const [tab, setTab] = useState([]);
@@ -38,8 +39,6 @@ function Result({navigation, id, sc}): JSX.Element {
       });
       const resultText = await res.text();
       const data = JSON.parse(resultText);
-      // const data = await res.json();
-      // setTab(data[0]);
       setLoadOrNot(false);
     } catch (error) {
       console.error(error);
@@ -67,7 +66,7 @@ function Result({navigation, id, sc}): JSX.Element {
         });
         const resultText = await res.text();
         const data = JSON.parse(resultText);
-        // console.log(data);
+        console.log(data);
 
         // const data = await res.json();
         setTab(data[0]);
@@ -83,7 +82,7 @@ function Result({navigation, id, sc}): JSX.Element {
         }
 
         // console.log(data[0]);
-        ScrollViewRef.current.scrollTo({y: 0, animated: false});
+        // ScrollViewRef.current.scrollTo({y: 0, animated: false});
         setLoadOrNot(false);
       } catch (error) {
         console.error(error);
@@ -92,154 +91,188 @@ function Result({navigation, id, sc}): JSX.Element {
     getDataPagination();
   }, [page]);
 
-  return (
-    <ScrollView style={styles.container} ref={ScrollViewRef}>
-      {loadOrNot ? (
-        <View style={styles.activity}>
-          <ActivityIndicator color="#52b7c6" />
-        </View>
-      ) : (
-        tab.map((elem, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.touchableProperty}
-            onPress={() =>
-              navigation.navigate('Détails', {id: elem.etablissements_id})
-            }>
-            <View style={styles.cardContainer}>
-              <View style={styles.imageContainer}>
-                <FastImage
-                  // source={require('../assets/images/img2.jpg')}
-                  source={{
-                    uri:
-                      ONLINE_URL +
-                      'publics/' +
-                      JSON.parse(elem.etablissements_photo)[0],
-                  }}
-                  style={styles.imageToShow}
-                  resizeMode={FastImage.resizeMode.cover}
-                />
-                {/* <View style={styles.place_for_heart}>
+  const [selectedTab, setSelectedTab] = useState(1);
+
+  const changeTab = tabNumber => {
+    setSelectedTab(tabNumber);
+  };
+
+  const renderInterface = () => {
+    switch (selectedTab) {
+      case 1:
+        return (
+          <ScrollView style={styles.container} ref={ScrollViewRef}>
+            {loadOrNot ? (
+              <View style={styles.activity}>
+                <ActivityIndicator color="#52b7c6" />
+              </View>
+            ) : (
+              tab.map((elem, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.touchableProperty}
+                  onPress={() =>
+                    navigation.navigate('Détails', {id: elem.etablissements_id})
+                  }>
+                  <View style={styles.cardContainer}>
+                    <View style={styles.imageContainer}>
+                      <FastImage
+                        // source={require('../assets/images/img2.jpg')}
+                        source={{
+                          uri:
+                            ONLINE_URL +
+                            'publics/' +
+                            JSON.parse(elem.etablissements_photo)[0],
+                        }}
+                        style={styles.imageToShow}
+                        resizeMode={FastImage.resizeMode.cover}
+                      />
+                      {/* <View style={styles.place_for_heart}>
                   <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
                 </View> */}
-              </View>
-              <View style={styles.infoContainer}>
-                <Text style={styles.nom_fiche}>{elem.etablissements_nom}</Text>
-                <Text style={styles.location}>
-                  <FontAwesomeIcon
-                    icon={faLocationPin}
-                    size={10}
-                    style={styles.icon_replacement}
-                  />
-                  <Text style={styles.location_text}>
-                    {elem.etablissements_adresse}
-                  </Text>
-                </Text>
-                <View style={styles.place_for_owner}>
-                  <FastImage
-                    resizeMode={FastImage.resizeMode.cover}
-                    source={
-                      elem.users_etablissement_logo == ''
-                        ? {
-                            uri:
-                              ONLINE_URL +
-                              'publics/' +
-                              elem.users_etablissement_logo,
+                    </View>
+                    <View style={styles.infoContainer}>
+                      <Text style={styles.nom_fiche}>
+                        {elem.etablissements_nom}
+                      </Text>
+                      <Text style={styles.location}>
+                        <FontAwesomeIcon
+                          icon={faLocationPin}
+                          size={10}
+                          style={styles.icon_replacement}
+                        />
+                        <Text style={styles.location_text}>
+                          {elem.etablissements_adresse}
+                        </Text>
+                      </Text>
+                      <View style={styles.place_for_owner}>
+                        <FastImage
+                          resizeMode={FastImage.resizeMode.cover}
+                          source={
+                            elem.users_etablissement_logo == ''
+                              ? {
+                                  uri:
+                                    ONLINE_URL +
+                                    'publics/' +
+                                    elem.users_etablissement_logo,
+                                }
+                              : require('../assets/images/avatar.png')
                           }
-                        : require('../assets/images/avatar.png')
-                    }
-                    style={styles.image_owner}
-                  />
+                          style={styles.image_owner}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.sous_categorie}>
+                    <View style={styles.imageContainer_sc}>
+                      <FastImage
+                        resizeMode={FastImage.resizeMode.cover}
+                        source={{
+                          uri:
+                            ONLINE_URL +
+                            'publics/image/icon-sous-categories/' +
+                            elem.sous_categories_icon,
+                        }}
+                        style={styles.sous_categorie_image}
+                      />
+                    </View>
+                    <Text style={styles.sous_categorie_text}>
+                      {elem.sous_categories_nom}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              ))
+            )}
+            {loadOrNot ? (
+              ''
+            ) : (
+              <View style={styles.voirplus}>
+                <View style={styles.btnVoirPlus}>
+                  <Text
+                    style={styles.textVoirPlus}
+                    onPress={() => setPage(page + 1)}>
+                    Afficher la suite
+                  </Text>
                 </View>
               </View>
-            </View>
-            <View style={styles.sous_categorie}>
-              <View style={styles.imageContainer_sc}>
-                <FastImage
-                  resizeMode={FastImage.resizeMode.cover}
-                  source={{
-                    uri:
-                      ONLINE_URL +
-                      'publics/image/icon-sous-categories/' +
-                      elem.sous_categories_icon,
+            )}
+          </ScrollView>
+        );
+      case 2:
+        return (
+          <View>
+            <MapView
+              style={styles.maps}
+              initialRegion={{
+                latitude: parseFloat(tab[0]?.etablissements_latitude),
+                longitude: parseFloat(tab[0]?.etablissements_longitude),
+                latitudeDelta: 10,
+                longitudeDelta: 10,
+              }}
+              zoomControlEnabled={true}
+              showsMyLocationButton={true}>
+              {tab.map((eleme, ind) => (
+                <Marker
+                  key={ind}
+                  coordinate={{
+                    latitude: parseFloat(eleme.etablissements_latitude),
+                    longitude: parseFloat(eleme.etablissements_longitude),
                   }}
-                  style={styles.sous_categorie_image}
-                />
-              </View>
-              <Text style={styles.sous_categorie_text}>
-                {elem.sous_categories_nom}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ))
-      )}
-      {/* {tab.map((elem, index) => (
+                  title={eleme.etablissements_nom} // Titre du marqueur
+                  description={eleme.etablissements_adresse} // Description du marqueur
+                  // image={require('../assets/Epingles/act_50.png')}
+                >
+                  {/* <Callout
+                    onPress={() =>
+                      navigation.navigate('Détails', {
+                        id: eleme.etablissements_id,
+                      })
+                    }>
+                    <View>
+                      <Text>{eleme.etablissements_nom}</Text>
+                      <Text>{eleme.etablissements_adresse}</Text>
+                    </View>
+                  </Callout> */}
+                  <FastImage
+                    resizeMode={FastImage.resizeMode.cover}
+                    source={{
+                      uri:
+                        ONLINE_URL +
+                        'publics/image/icon_android/' +
+                        eleme.categories_map_icon,
+                    }}
+                    style={{width: 35, height: 40}}
+                  />
+                </Marker>
+              ))}
+            </MapView>
+          </View>
+        );
+    }
+  };
+
+  return (
+    <View>
+      <View style={styles.containerBulles}>
         <TouchableOpacity
-          key={index}
-          style={styles.touchableProperty}
-          onPress={() =>
-            navigation.navigate('Détails', {id: elem.etablissements_id})
-          }>
-          <View style={styles.cardContainer}>
-            <View style={styles.imageContainer}>
-              <Image
-                source={require('../assets/images/img2.jpg')}
-                style={styles.imageToShow}
-              />
-              <View style={styles.place_for_heart}>
-                <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
-              </View>
-            </View>
-            <View style={styles.infoContainer}>
-              <Text style={styles.nom_fiche}>{elem.etablissements_nom}</Text>
-              <Text style={styles.location}>
-                <FontAwesomeIcon
-                  icon={faLocationPin}
-                  size={10}
-                  style={styles.icon_replacement}
-                />
-                <Text style={styles.location_text}>
-                  {elem.etablissements_adresse}
-                </Text>
-              </Text>
-              <View style={styles.place_for_owner}>
-                <Image
-                  source={require('../assets/images/avatar.png')}
-                  style={styles.image_owner}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.sous_categorie}>
-            <Image
-              source={require('../assets/icons/sous-categories/icon-ateliers-et-stages.png')}
-              style={styles.sous_categorie_image}
-            />
-            <Text style={styles.sous_categorie_text}>
-              {elem.sous_categories_nom}
-            </Text>
-          </View>
+          style={[
+            styles.bulles,
+            {borderColor: selectedTab === 1 ? 'orange' : '#dddddd'},
+          ]}
+          onPress={() => changeTab(1)}>
+          <Text style={styles.textBulle}>Etablissements</Text>
         </TouchableOpacity>
-      ))} */}
-      {/* <View style={styles.voirplus}>
-        <View style={styles.btnVoirPlus}>
-          <Text style={styles.textVoirPlus} onPress={() => setPage(page + 1)}>
-            Afficher la suite
-          </Text>
-        </View>
-      </View> */}
-      {loadOrNot ? (
-        <Text />
-      ) : (
-        <View style={styles.voirplus}>
-          <View style={styles.btnVoirPlus}>
-            <Text style={styles.textVoirPlus} onPress={() => setPage(page + 1)}>
-              Afficher la suite
-            </Text>
-          </View>
-        </View>
-      )}
-    </ScrollView>
+        <TouchableOpacity
+          style={[
+            styles.bulles,
+            {borderColor: selectedTab === 2 ? 'orange' : '#dddddd'},
+          ]}
+          onPress={() => changeTab(2)}>
+          <Text style={styles.textBulle}>Voir la carte</Text>
+        </TouchableOpacity>
+      </View>
+      {renderInterface()}
+    </View>
   );
 }
 const styles = StyleSheet.create({
@@ -378,6 +411,27 @@ const styles = StyleSheet.create({
   activity: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  containerBulles: {
+    justifyContent: 'center',
+    padding: 20,
+    flexDirection: 'row',
+  },
+  bulles: {
+    width: '45%',
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 5,
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  maps: {
+    width: '100%',
+    height: maxHeight,
+  },
+  textBulle: {
+    fontWeight: 'bold',
   },
 });
 
