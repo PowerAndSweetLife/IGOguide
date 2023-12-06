@@ -9,32 +9,12 @@ function SearchBarDesign({navigation}): JSX.Element {
   const [motCle, setMotCle] = useState('');
   const [lieu, setLieu] = useState('');
   const doSearch = async () => {
-    // console.log('hanao recherche !');
     if (motCle === '' && lieu === '') {
       Alert.alert('Attention !', 'Remplir au moins un critère');
     } else {
       try {
-        // const res = await fetch(BASE_URL + 'globallySearch', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify({
-        //     mc: motCle,
-        //     loc: lieu,
-        //   }),
-        // });
-        // if (res.ok) {
-        //   // console.log(res);
-        //   const resultatText = await res.text();
-        //   const result = JSON.parse(resultatText);
-
-        //   console.log(result);
-        // }
         navigation.navigate('SearchScreen', {mc: motCle, loc: lieu});
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
   };
   return (
@@ -109,11 +89,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     marginBottom: 5,
-    // marginTop: 1,
-    // paddingLeft: 15,
-    // paddingRight: 15,
-    // marginLeft: 1,
-    // marginRight: 1,
     textAlign: 'center',
   },
 });

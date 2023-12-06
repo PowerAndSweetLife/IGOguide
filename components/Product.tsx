@@ -14,177 +14,177 @@ import {BASE_URL, ONLINE_URL} from '../helper/URL';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faLocationPin} from '@fortawesome/free-solid-svg-icons';
 import FastImage from 'react-native-fast-image';
-const maxHeight = Dimensions.get('window').height - 440;
+const maxHeight = Dimensions.get('window').height - 250;
 function Product({navigation}): JSX.Element {
   const [tab, setTab] = useState([]);
   const [loadOrNot, setLoadOrNot] = useState(true);
-  const getHome = async () => {
-    try {
-      const res = await fetch(BASE_URL + 'alldatas', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: '123',
-        }),
-      });
-      // if (res.ok) {
-      // console.log(res);
-      const resultText = await res.text();
-      const data = JSON.parse(resultText);
-      setTab(data.data);
-      setLoadOrNot(false);
-      // console.log(data.data);
-      // } else {
-      //   console.log('not ok');
-      // }
-    } catch (error) {
-      // console.log(error);
-    }
-  };
 
   useEffect(() => {
+    const getHome = async () => {
+      try {
+        const res = await fetch(BASE_URL + 'alldatas', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: '123',
+          }),
+        });
+        const resultText = await res.text();
+        const data = JSON.parse(resultText);
+        setTab(data.data);
+        setLoadOrNot(false);
+      } catch (error) {}
+    };
     getHome();
-  }, []);
+  }, [navigation]);
 
   return (
     <View>
       <Text style={styles.entete}>
         Faites vos recherches avec les catégories suivantes
       </Text>
-      <View style={styles.content}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('SousCategories', {id: 1})}>
-          <View style={styles.contentCategorie}>
-            <CategorieImage
-              imageSource={require('../assets/icons/hebergement_bleu.png')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('SousCategories', {id: 2})}>
-          <View style={styles.contentCategorie}>
-            <CategorieImage
-              imageSource={require('../assets/icons/ou_boire_bleu.png')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('SousCategories', {id: 3})}>
-          <View style={styles.contentCategorie}>
-            <CategorieImage
-              imageSource={require('../assets/icons/restaurant_blue.png')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('SousCategories', {id: 4})}>
-          <View style={styles.contentCategorie}>
-            <CategorieImage
-              imageSource={require('../assets/icons/balades_bleu.png')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('SousCategories', {id: 5})}>
-          <View style={styles.contentCategorie}>
-            <CategorieImage
-              imageSource={require('../assets/icons/activites_bleu.png')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('SousCategories', {id: 6})}>
-          <View style={styles.contentCategorie}>
-            <CategorieImage
-              imageSource={require('../assets/icons/services_bleu.png')}
-            />
-          </View>
-        </TouchableOpacity>
-      </View>
-      <ScrollView style={styles.container_scroll}>
-        {loadOrNot ? (
-          <View style={styles.activity}>
-            <ActivityIndicator color="#52b7c6" />
-          </View>
-        ) : (
-          tab.map((elem, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.touchableProperty}
-              onPress={() =>
-                navigation.navigate('Détails', {id: elem.etablissements_id})
-              }>
-              <View style={styles.cardContainer}>
-                <View style={styles.imageContainer}>
-                  <FastImage
-                    resizeMode={FastImage.resizeMode.cover}
-                    // source={require('../assets/images/img2.jpg')}
-                    source={{
-                      uri:
-                        ONLINE_URL +
-                        'publics/' +
-                        JSON.parse(elem.etablissements_photo)[0],
-                    }}
-                    style={styles.imageToShow}
-                  />
-                  {/* <View style={styles.place_for_heart}>
-                  <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
-                </View> */}
-                </View>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.nom_fiche}>
-                    {elem.etablissements_nom}
-                  </Text>
-                  <Text style={styles.location}>
-                    <FontAwesomeIcon
-                      icon={faLocationPin}
-                      size={10}
-                      style={styles.icon_replacement}
-                    />
-                    <Text style={styles.location_text}>
-                      {elem.etablissements_adresse}
-                    </Text>
-                  </Text>
-                  <View style={styles.place_for_owner}>
+      <ScrollView style={styles.scroller}>
+        <View style={styles.content}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SousCategories', {id: 1})}>
+            <View style={styles.contentCategorie}>
+              <CategorieImage
+                imageSource={require('../assets/icons/hebergement_bleu.png')}
+              />
+              <Text style={styles.textCateg}>Hébergements</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SousCategories', {id: 2})}>
+            <View style={styles.contentCategorie}>
+              <CategorieImage
+                imageSource={require('../assets/icons/ou_boire_bleu.png')}
+              />
+              <Text style={styles.textCateg}>Bar</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SousCategories', {id: 3})}>
+            <View style={styles.contentCategorie}>
+              <CategorieImage
+                imageSource={require('../assets/icons/restaurant_blue.png')}
+              />
+              <Text style={styles.textCateg}>Restaurant</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SousCategories', {id: 4})}>
+            <View style={styles.contentCategorie}>
+              <CategorieImage
+                imageSource={require('../assets/icons/balades_bleu.png')}
+              />
+              <Text style={styles.textCateg}>Balades</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SousCategories', {id: 5})}>
+            <View style={styles.contentCategorie}>
+              <CategorieImage
+                imageSource={require('../assets/icons/activites_bleu.png')}
+              />
+              <Text style={styles.textCateg}>Activités</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SousCategories', {id: 6})}>
+            <View style={styles.contentCategorie}>
+              <CategorieImage
+                imageSource={require('../assets/icons/services_bleu.png')}
+              />
+              <Text style={styles.textCateg}>Services</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.viewListe}>
+          {loadOrNot ? (
+            <View style={styles.activity}>
+              <ActivityIndicator color="#52b7c6" />
+            </View>
+          ) : (
+            tab.map((elem, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.touchableProperty}
+                onPress={() =>
+                  navigation.navigate('Détails', {id: elem.etablissements_id})
+                }>
+                <View style={styles.cardContainer}>
+                  <View style={styles.imageContainer}>
                     <FastImage
                       resizeMode={FastImage.resizeMode.cover}
-                      source={
-                        elem.users_etablissement_logo == ''
-                          ? {
-                              uri:
-                                ONLINE_URL +
-                                'publics/' +
-                                elem.users_etablissement_logo,
-                            }
-                          : require('../assets/images/avatar.png')
-                      }
-                      style={styles.image_owner}
+                      // source={require('../assets/images/img2.jpg')}
+                      source={{
+                        uri:
+                          ONLINE_URL +
+                          'publics/' +
+                          JSON.parse(elem.etablissements_photo)[0],
+                      }}
+                      style={styles.imageToShow}
                     />
+                    {/* <View style={styles.place_for_heart}>
+                  <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
+                </View> */}
+                  </View>
+                  <View style={styles.infoContainer}>
+                    <Text style={styles.nom_fiche}>
+                      {elem.etablissements_nom}
+                    </Text>
+                    <Text style={styles.location}>
+                      <FontAwesomeIcon
+                        icon={faLocationPin}
+                        size={10}
+                        style={styles.icon_replacement}
+                      />
+                      <Text style={styles.location_text}>
+                        {elem.etablissements_adresse}
+                      </Text>
+                    </Text>
+                    <View style={styles.place_for_owner}>
+                      <FastImage
+                        resizeMode={FastImage.resizeMode.cover}
+                        source={
+                          elem.users_etablissement_logo == ''
+                            ? {
+                                uri:
+                                  ONLINE_URL +
+                                  'publics/' +
+                                  elem.users_etablissement_logo,
+                              }
+                            : require('../assets/images/avatar.png')
+                        }
+                        style={styles.image_owner}
+                      />
+                    </View>
                   </View>
                 </View>
-              </View>
-              <View style={styles.sous_categorie}>
-                <View style={styles.imageContainer_sc}>
-                  <FastImage
-                    resizeMode={FastImage.resizeMode.cover}
-                    source={{
-                      uri:
-                        ONLINE_URL +
-                        'publics/image/icon-sous-categories/' +
-                        elem.sous_categories_icon,
-                    }}
-                    style={styles.sous_categorie_image}
-                  />
+                <View style={styles.sous_categorie}>
+                  <View style={styles.imageContainer_sc}>
+                    <FastImage
+                      resizeMode={FastImage.resizeMode.cover}
+                      source={{
+                        uri:
+                          ONLINE_URL +
+                          'publics/image/icon-sous-categories/' +
+                          elem.sous_categories_icon,
+                      }}
+                      style={styles.sous_categorie_image}
+                    />
+                  </View>
+                  <Text style={styles.sous_categorie_text}>
+                    {elem.sous_categories_nom}
+                  </Text>
                 </View>
-                <Text style={styles.sous_categorie_text}>
-                  {elem.sous_categories_nom}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))
-        )}
+              </TouchableOpacity>
+            ))
+          )}
+        </View>
       </ScrollView>
     </View>
   );
@@ -195,9 +195,12 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     flexWrap: 'wrap',
     paddingLeft: 25,
-    paddingRight: 20,
+    paddingRight: 25,
     justifyContent: 'center',
     flexDirection: 'row',
+  },
+  scroller: {
+    height: maxHeight,
   },
   container_scroll: {
     maxHeight: maxHeight,
@@ -205,9 +208,13 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
   },
+  viewListe: {
+    paddingLeft: 25,
+    paddingRight: 25,
+  },
   contentCategorie: {
-    width: 105,
-    height: 105,
+    width: 150,
+    height: 150,
     marginRight: 5,
     marginLeft: 5,
     marginBottom: 10,
@@ -365,6 +372,16 @@ const styles = StyleSheet.create({
   activity: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  textCateg: {
+    width: 105,
+    // backgroundColor: 'red',
+    paddingLeft: 5,
+    paddingRight: 5,
+    marginTop: 5,
+    textAlign: 'center',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });
 

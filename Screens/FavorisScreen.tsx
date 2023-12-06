@@ -3,7 +3,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   Alert,
   Dimensions,
-  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,7 +11,6 @@ import {
 import {BASE_URL, ONLINE_URL} from '../helper/URL';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faHeart} from '@fortawesome/free-regular-svg-icons';
 import {faLocationPin} from '@fortawesome/free-solid-svg-icons';
 import {ScrollView} from 'react-native-gesture-handler';
 import FastImage from 'react-native-fast-image';
@@ -37,16 +35,12 @@ function FavorisScreen({navigation}): JSX.Element {
             id: iduser,
           }),
         });
-        // console.log(res);
         if (res.ok) {
           const resultText = await res.text();
           const result = JSON.parse(resultText);
-          // console.log(result.data.length);
           if (result.data.length == 0) {
-            // tsy misy favoris
             setMessage('Aucun favoris');
           } else {
-            // misy favoris
             setTab(result.data);
             setTabLength(true);
           }
@@ -56,7 +50,7 @@ function FavorisScreen({navigation}): JSX.Element {
       } catch (error) {}
     }
   };
-  // getFav();
+
   useEffect(() => {
     getFav();
   }, []);
@@ -76,7 +70,6 @@ function FavorisScreen({navigation}): JSX.Element {
                 <View style={styles.imageContainer}>
                   <FastImage
                     resizeMode={FastImage.resizeMode.cover}
-                    // source={require('../assets/images/img2.jpg')}
                     source={{
                       uri:
                         ONLINE_URL +
@@ -85,9 +78,6 @@ function FavorisScreen({navigation}): JSX.Element {
                     }}
                     style={styles.imageToShow}
                   />
-                  {/* <View style={styles.place_for_heart}>
-                    <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
-                  </View> */}
                 </View>
                 <View style={styles.infoContainer}>
                   <Text style={styles.nom_fiche}>

@@ -6,7 +6,6 @@ import {StyleSheet, View, Alert, Pressable} from 'react-native';
 import IconInsertion from './IconInsertion';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SafeAreaView} from 'react-native-safe-area-context';
-// import IconInsertion from '../utils/IconInsertion';
 
 const showAlert = () => {
   Alert.alert('Custom drawer here', 'Connexion, inscription,...');
@@ -19,14 +18,11 @@ function Header({navigation}): JSX.Element {
     try {
       const user = await AsyncStorage.getItem('id');
       if (user === null) {
-        // Go to login
         navigation.navigate('Connexion', {fromScreen: 'header'});
       } else {
         navigation.navigate('Favoris');
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const goHome = () => {

@@ -24,12 +24,9 @@ function HamburgerScreen({navigation}): JSX.Element {
     try {
       const user = await AsyncStorage.getItem('userID');
       if (user === null) {
-        // Go to login
         navigation.navigate('Connexion', {fromScreen: ''});
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   return (
     <SafeAreaView>
@@ -43,9 +40,6 @@ function HamburgerScreen({navigation}): JSX.Element {
               style={styles.menuStyle}>
               <Text>Profil</Text>
             </Pressable>
-            {/* <Pressable style={styles.menuStyle}>
-              <Text>Favoris</Text>
-            </Pressable> */}
           </View>
         ) : (
           ''
@@ -76,6 +70,7 @@ function HamburgerScreen({navigation}): JSX.Element {
   );
 }
 
+
 const styles = StyleSheet.create({
   centerAll: {
     flexDirection: 'column',
@@ -91,5 +86,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 });
+
 
 export default HamburgerScreen;

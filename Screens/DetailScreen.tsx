@@ -8,14 +8,7 @@ function DetailScreen({navigation}): JSX.Element {
   const {id} = route.params;
   return (
     <SafeAreaView>
-      {/* <Header />
-      <SearchBarDesign /> */}
       <Detail navigation={navigation} id={id} />
-      {/* <Product /> */}
-      {/* <Result/> */}
-      {/* <Detail /> */}
-      {/* <Login/> */}
-      {/* <Register/> */}
     </SafeAreaView>
   );
 }

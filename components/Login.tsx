@@ -39,10 +39,7 @@ function Login({navigation}): JSX.Element {
           const resultText = await res.text();
           const result = JSON.parse(resultText);
 
-          // console.log(result);
-
           if (result.success) {
-            // console.log("nety oh") ;
             await AsyncStorage.setItem('id', result.data[0].users_id);
             await AsyncStorage.setItem('mail', result.data[0].users_email);
             await AsyncStorage.setItem('photo', result.data[0].users_photo);
@@ -52,12 +49,8 @@ function Login({navigation}): JSX.Element {
             } else {
               navigation.navigate('Home');
             }
-
-            // await AsyncStorage.setItem('userToken', token);
           } else {
-            // navigation.navigate('Inscription') ;
             const id = await AsyncStorage.getItem('id');
-            console.log('Eto oh: ' + fromScreen);
             if (id !== null) {
               if (fromScreen === 'favorite') {
                 navigation.navigate('Détails', {id: idresult});
@@ -71,7 +64,6 @@ function Login({navigation}): JSX.Element {
         } else {
           const id = await AsyncStorage.getItem('id');
           if (id !== null) {
-            console.log('Eto oh: ' + fromScreen);
             if (fromScreen === 'favorite') {
               navigation.navigate('Détails', {id: idresult});
             } else {
@@ -84,14 +76,12 @@ function Login({navigation}): JSX.Element {
       } catch (error) {
         const id = await AsyncStorage.getItem('id');
         if (id !== null) {
-          console.log('Eto oh: ' + fromScreen);
           if (fromScreen === 'favorite') {
             navigation.navigate('Détails', {id: idresult});
           } else {
             navigation.navigate('Home');
           }
         }
-        // Alert.alert('Erreur !', 'Erreur de connexion au serveur !');
       }
     }
   };
@@ -133,10 +123,7 @@ const styles = StyleSheet.create({
   container_form: {
     padding: 25,
   },
-  container: {
-    // justifyContent: 'center',
-    // alignItems: 'center',
-  },
+  container: {},
   inputReform: {
     borderWidth: 1,
     borderColor: '#dddddd',

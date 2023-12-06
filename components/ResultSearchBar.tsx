@@ -21,7 +21,6 @@ const maxHeight = Dimensions.get('window').height - 75;
 function ResultSearchBar({navigation}): JSX.Element {
   const route = useRoute();
   const {mc, loc} = route.params;
-  //   console.log(mc);
   const [tab, setTab] = useState([]);
   const [len, setLen] = useState(0);
   const [loadOrNot, setLoadOrNot] = useState(true);
@@ -38,26 +37,19 @@ function ResultSearchBar({navigation}): JSX.Element {
           loc: loc,
         }),
       });
-      // console.log(res) ;
       if (res.ok) {
-        // console.log(res);
         const resultatText = await res.text();
         const result = JSON.parse(resultatText);
-        console.log(result.data.length);
         setLen(result.data.length);
         setTab(result.data);
       }
-      // const data = await res.json();
-      // setTab(data[0]);
       setLoadOrNot(false);
     } catch (error) {
       console.error(error);
     }
   };
-  //   getData();
 
   useEffect(() => {
-    // setLoadOrNot(true);
     getData();
   }, []);
 
@@ -87,7 +79,6 @@ function ResultSearchBar({navigation}): JSX.Element {
               <View style={styles.imageContainer}>
                 <FastImage
                   resizeMode={FastImage.resizeMode.cover}
-                  // source={require('../assets/images/img2.jpg')}
                   source={{
                     uri:
                       ONLINE_URL +
@@ -96,9 +87,6 @@ function ResultSearchBar({navigation}): JSX.Element {
                   }}
                   style={styles.imageToShow}
                 />
-                {/* <View style={styles.place_for_heart}>
-                  <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
-                </View> */}
               </View>
               <View style={styles.infoContainer}>
                 <Text style={styles.nom_fiche}>{elem.etablissements_nom}</Text>
@@ -150,61 +138,7 @@ function ResultSearchBar({navigation}): JSX.Element {
           </TouchableOpacity>
         ))
       )}
-      {/* {tab.map((elem, index) => (
-        <TouchableOpacity
-          key={index}
-          style={styles.touchableProperty}
-          onPress={() =>
-            navigation.navigate('Détails', {id: elem.etablissements_id})
-          }>
-          <View style={styles.cardContainer}>
-            <View style={styles.imageContainer}>
-              <Image
-                source={require('../assets/images/img2.jpg')}
-                style={styles.imageToShow}
-              />
-              <View style={styles.place_for_heart}>
-                <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
-              </View>
-            </View>
-            <View style={styles.infoContainer}>
-              <Text style={styles.nom_fiche}>{elem.etablissements_nom}</Text>
-              <Text style={styles.location}>
-                <FontAwesomeIcon
-                  icon={faLocationPin}
-                  size={10}
-                  style={styles.icon_replacement}
-                />
-                <Text style={styles.location_text}>
-                  {elem.etablissements_adresse}
-                </Text>
-              </Text>
-              <View style={styles.place_for_owner}>
-                <Image
-                  source={require('../assets/images/avatar.png')}
-                  style={styles.image_owner}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.sous_categorie}>
-            <Image
-              source={require('../assets/icons/sous-categories/icon-ateliers-et-stages.png')}
-              style={styles.sous_categorie_image}
-            />
-            <Text style={styles.sous_categorie_text}>
-              {elem.sous_categories_nom}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      ))} */}
-      {/* <View style={styles.voirplus}>
-        <View style={styles.btnVoirPlus}>
-          <Text style={styles.textVoirPlus} onPress={() => setPage(page + 1)}>
-            Afficher la suite
-          </Text>
-        </View>
-      </View> */}
+
       {loadOrNot ? <Text /> : <Text />}
     </ScrollView>
   );
@@ -338,7 +272,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#56bdcd',
     padding: 10,
     borderRadius: 10,
-    // height: 30,
   },
   textVoirPlus: {
     color: 'white',

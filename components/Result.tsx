@@ -16,37 +16,28 @@ import {
 import {BASE_URL, ONLINE_URL} from '../helper/URL';
 import FastImage from 'react-native-fast-image';
 import MapView, {Callout, Marker} from 'react-native-maps';
-const maxHeight = Dimensions.get('window').height - 175;
+const maxHeight = Dimensions.get('window').height - 200;
 
 function Result({navigation, id, sc}): JSX.Element {
   const [tab, setTab] = useState([]);
   const [page, setPage] = useState(1);
   const [initialisation, setInitialisation] = useState(true);
   const [nomCategorie, setNomCategorie] = useState('');
+  const [len, setLen] = useState(0);
+  const [totalPaginationWalked, setTotalPaginationWalked] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [loadOrNot, setLoadOrNot] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const ScrollViewRef = useRef();
-  const getData = async () => {
-    try {
-      const res = await fetch(BASE_URL + 'getEtablissements', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: id,
-          sc: sc,
-        }),
-      });
-      const resultText = await res.text();
-      const data = JSON.parse(resultText);
-      setLoadOrNot(false);
-    } catch (error) {
-      console.error(error);
-    }
+  const ShowNextPage = () => {
+    setLoadingMore(true);
+    setTotalPaginationWalked(totalPaginationWalked + 1);
   };
-  if (initialisation) {
-    getData();
-  }
+
+  const ShowPreviousPage = () => {
+    setLoadingMore(true);
+    setTotalPaginationWalked(totalPaginationWalked - 1);
+  };
 
   useEffect(() => {
     setLoadOrNot(true);
@@ -61,18 +52,16 @@ function Result({navigation, id, sc}): JSX.Element {
           body: JSON.stringify({
             id: id,
             sc: sc,
-            page: page,
+            page: totalPaginationWalked,
+            totalPages: totalPages,
           }),
         });
         const resultText = await res.text();
         const data = JSON.parse(resultText);
-        console.log(data);
-
-        // const data = await res.json();
         setTab(data[0]);
-        console.log(data[0].length);
         const nomc = data[0].categories_nom;
-
+        setTotalPages(data.TotalPage);
+        setLen(data.TotalDonnees);
         if (nomc == 'Où boire ?') {
           setNomCategorie('Bar');
         } else if (nomc == 'Où manger ?') {
@@ -80,16 +69,14 @@ function Result({navigation, id, sc}): JSX.Element {
         } else {
           setNomCategorie(nomc);
         }
-
-        // console.log(data[0]);
-        // ScrollViewRef.current.scrollTo({y: 0, animated: false});
         setLoadOrNot(false);
+        setLoadingMore(false);
       } catch (error) {
         console.error(error);
       }
     };
     getDataPagination();
-  }, [page]);
+  }, [totalPaginationWalked, loadingMore]);
 
   const [selectedTab, setSelectedTab] = useState(1);
 
@@ -102,6 +89,24 @@ function Result({navigation, id, sc}): JSX.Element {
       case 1:
         return (
           <ScrollView style={styles.container} ref={ScrollViewRef}>
+            {loadOrNot ? (
+              ''
+            ) : !loadingMore && totalPaginationWalked === 1 ? (
+              ''
+            ) : len === 0 ? (
+              ''
+            ) : (
+              <View style={styles.voirplus}>
+                <View style={styles.btnVoirPlus}>
+                  <Text
+                    style={styles.textVoirPlus}
+                    onPress={() => ShowPreviousPage()}>
+                    Afficher la page précédente
+                  </Text>
+                </View>
+              </View>
+            )}
+
             {loadOrNot ? (
               <View style={styles.activity}>
                 <ActivityIndicator color="#52b7c6" />
@@ -117,7 +122,6 @@ function Result({navigation, id, sc}): JSX.Element {
                   <View style={styles.cardContainer}>
                     <View style={styles.imageContainer}>
                       <FastImage
-                        // source={require('../assets/images/img2.jpg')}
                         source={{
                           uri:
                             ONLINE_URL +
@@ -127,9 +131,6 @@ function Result({navigation, id, sc}): JSX.Element {
                         style={styles.imageToShow}
                         resizeMode={FastImage.resizeMode.cover}
                       />
-                      {/* <View style={styles.place_for_heart}>
-                  <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
-                </View> */}
                     </View>
                     <View style={styles.infoContainer}>
                       <Text style={styles.nom_fiche}>
@@ -185,13 +186,17 @@ function Result({navigation, id, sc}): JSX.Element {
             )}
             {loadOrNot ? (
               ''
+            ) : !loadingMore && totalPages === totalPaginationWalked ? (
+              ''
+            ) : len === 0 ? (
+              ''
             ) : (
               <View style={styles.voirplus}>
                 <View style={styles.btnVoirPlus}>
                   <Text
                     style={styles.textVoirPlus}
-                    onPress={() => setPage(page + 1)}>
-                    Afficher la suite
+                    onPress={() => ShowNextPage()}>
+                    Afficher la page suivante
                   </Text>
                 </View>
               </View>
@@ -218,21 +223,8 @@ function Result({navigation, id, sc}): JSX.Element {
                     latitude: parseFloat(eleme.etablissements_latitude),
                     longitude: parseFloat(eleme.etablissements_longitude),
                   }}
-                  title={eleme.etablissements_nom} // Titre du marqueur
-                  description={eleme.etablissements_adresse} // Description du marqueur
-                  // image={require('../assets/Epingles/act_50.png')}
-                >
-                  {/* <Callout
-                    onPress={() =>
-                      navigation.navigate('Détails', {
-                        id: eleme.etablissements_id,
-                      })
-                    }>
-                    <View>
-                      <Text>{eleme.etablissements_nom}</Text>
-                      <Text>{eleme.etablissements_adresse}</Text>
-                    </View>
-                  </Callout> */}
+                  title={eleme.etablissements_nom}
+                  description={eleme.etablissements_adresse}>
                   <FastImage
                     resizeMode={FastImage.resizeMode.cover}
                     source={{
@@ -270,6 +262,11 @@ function Result({navigation, id, sc}): JSX.Element {
           onPress={() => changeTab(2)}>
           <Text style={styles.textBulle}>Voir la carte</Text>
         </TouchableOpacity>
+      </View>
+      <View>
+        <Text style={styles.textResultatRecherche}>
+          {len} Resultats trouvés par Igoguide
+        </Text>
       </View>
       {renderInterface()}
     </View>
@@ -432,6 +429,12 @@ const styles = StyleSheet.create({
   },
   textBulle: {
     fontWeight: 'bold',
+  },
+  textResultatRecherche: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    textAlign: 'center',
+    marginBottom: 10,
   },
 });
 

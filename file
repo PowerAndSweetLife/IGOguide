@@ -1,0 +1,83 @@
+<ScrollView style={styles.container_scroll}>
+        {loadOrNot ? (
+          <View style={styles.activity}>
+            <ActivityIndicator color="#52b7c6" />
+          </View>
+        ) : (
+          tab.map((elem, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.touchableProperty}
+              onPress={() =>
+                navigation.navigate('Détails', {id: elem.etablissements_id})
+              }>
+              <View style={styles.cardContainer}>
+                <View style={styles.imageContainer}>
+                  <FastImage
+                    resizeMode={FastImage.resizeMode.cover}
+                    // source={require('../assets/images/img2.jpg')}
+                    source={{
+                      uri:
+                        ONLINE_URL +
+                        'publics/' +
+                        JSON.parse(elem.etablissements_photo)[0],
+                    }}
+                    style={styles.imageToShow}
+                  />
+                  {/* <View style={styles.place_for_heart}>
+                  <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
+                </View> */}
+                </View>
+                <View style={styles.infoContainer}>
+                  <Text style={styles.nom_fiche}>
+                    {elem.etablissements_nom}
+                  </Text>
+                  <Text style={styles.location}>
+                    <FontAwesomeIcon
+                      icon={faLocationPin}
+                      size={10}
+                      style={styles.icon_replacement}
+                    />
+                    <Text style={styles.location_text}>
+                      {elem.etablissements_adresse}
+                    </Text>
+                  </Text>
+                  <View style={styles.place_for_owner}>
+                    <FastImage
+                      resizeMode={FastImage.resizeMode.cover}
+                      source={
+                        elem.users_etablissement_logo == ''
+                          ? {
+                              uri:
+                                ONLINE_URL +
+                                'publics/' +
+                                elem.users_etablissement_logo,
+                            }
+                          : require('../assets/images/avatar.png')
+                      }
+                      style={styles.image_owner}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.sous_categorie}>
+                <View style={styles.imageContainer_sc}>
+                  <FastImage
+                    resizeMode={FastImage.resizeMode.cover}
+                    source={{
+                      uri:
+                        ONLINE_URL +
+                        'publics/image/icon-sous-categories/' +
+                        elem.sous_categories_icon,
+                    }}
+                    style={styles.sous_categorie_image}
+                  />
+                </View>
+                <Text style={styles.sous_categorie_text}>
+                  {elem.sous_categories_nom}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))
+        )}
+      </ScrollView>

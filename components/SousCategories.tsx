@@ -31,10 +31,8 @@ function SousCategories({navigation, id}): JSX.Element {
         const data = JSON.parse(resultText);
 
         setDataSC(data.data);
-        setLoading(false); // Set loading to false once data is fetched
-      } catch (error) {
-        console.log('Erreur: ' + error);
-      }
+        setLoading(false);
+      } catch (error) {}
     };
 
     getData();
@@ -44,14 +42,8 @@ function SousCategories({navigation, id}): JSX.Element {
     <SafeAreaView>
       <ScrollView>
         {loading ? (
-          // Display loading indicator while data is being fetched
-          <ActivityIndicator
-            style={styles.loadingIndicator}
-            // size="large"
-            color="#52b7c6"
-          />
+          <ActivityIndicator style={styles.loadingIndicator} color="#52b7c6" />
         ) : (
-          // Display the content once data is fetched
           <View style={styles.content}>
             {dataSC.map((elem, index) => (
               <TouchableOpacity

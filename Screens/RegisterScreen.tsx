@@ -6,14 +6,6 @@ function RegisterScreen({navigation}): JSX.Element {
   return (
     <SafeAreaView>
       <Register navigation={navigation} />
-      {/* <Login navigation={navigation} /> */}
-      {/* <Header /> */}
-      {/* <SearchBarDesign /> */}
-      {/* <Product navigation={navigation}/> */}
-      {/* <Result/> */}
-      {/* <Detail /> */}
-      {/* <Login/> */}
-      {/* <Register/> */}
     </SafeAreaView>
   );
 }

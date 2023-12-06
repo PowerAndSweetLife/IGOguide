@@ -10,10 +10,6 @@ function HomeScreen({navigation}): JSX.Element {
       <Header navigation={navigation} />
       <SearchBarDesign navigation={navigation} />
       <Product navigation={navigation}/>
-      {/* <Result/> */}
-      {/* <Detail /> */}
-      {/* <Login/> */}
-      {/* <Register/> */}
     </SafeAreaView>
   );
 }

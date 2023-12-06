@@ -51,7 +51,6 @@ function Detail({navigation, id}): JSX.Element {
             message: messageForm,
           }),
         });
-        console.log(res);
         if (res.ok) {
           const resultText = await res.text();
           const result = JSON.parse(resultText);
@@ -116,7 +115,6 @@ function Detail({navigation, id}): JSX.Element {
             id_etab: id,
           }),
         });
-        // console.log(resFav);
         if (resFav.ok) {
           const resultTextFav = await resFav.text();
           const resultFav = JSON.parse(resultTextFav);
@@ -145,7 +143,6 @@ function Detail({navigation, id}): JSX.Element {
           <View key={index}>
             <View style={styles.header}>
               <Image
-                // source={require('../assets/images/img4.jpg')}
                 source={{
                   uri:
                     ONLINE_URL +
@@ -161,9 +158,6 @@ function Detail({navigation, id}): JSX.Element {
                 }}>
                 <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
               </TouchableOpacity>
-              {/* <TouchableOpacity style={styles.place_for_icon_left}>
-                <FontAwesomeIcon icon={faArrowLeft} style={styles.arrow} />
-              </TouchableOpacity> */}
             </View>
 
             <View style={styles.information_box}>
@@ -272,9 +266,8 @@ function Detail({navigation, id}): JSX.Element {
                     latitude: parseFloat(elem.etablissements_latitude),
                     longitude: parseFloat(elem.etablissements_longitude),
                   }}
-                  title={elem.etablissements_nom} // Titre du marqueur
-                  description={elem.etablissements_adresse} // Description du marqueur
-                  // image={require('../assets/Epingles/act_50.png')}
+                  title={elem.etablissements_nom}
+                  description={elem.etablissements_adresse}
                 >
                   <Image
                     source={{
@@ -291,22 +284,6 @@ function Detail({navigation, id}): JSX.Element {
           </View>
         ))
       )}
-      {/* <View>
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}>
-          <Marker
-            coordinate={{latitude: 37.78825, longitude: -122.4324}}
-            title="Marker Title"
-            description="Marker Description"
-          />
-        </MapView>
-      </View> */}
     </ScrollView>
   );
 }
@@ -350,15 +327,11 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   information_box: {
-    // justifyContent: 'center',
-    // alignItems: 'center',
     flexDirection: 'row',
-    // height: 100,
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 5,
     paddingRight: 10,
-    // backgroundColor: 'green',
   },
   image_owner: {
     width: 40,
@@ -370,23 +343,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   owner: {
-    // justifyContent: 'center',
     alignItems: 'center',
     width: '20%',
-    // backgroundColor: 'red',
   },
   owner_info: {
-    // backgroundColor: 'yellow',
     width: '80%',
-    // justifyContent: 'center',
-    // alignItems: 'center',
     padding: 2,
   },
   owner_name: {
     fontWeight: 'bold',
   },
   divers: {
-    // height: 300,
     backgroundColor: '#f5eee6',
     padding: 15,
   },
@@ -427,7 +394,6 @@ const styles = StyleSheet.create({
   maps: {
     width: '100%',
     height: 400,
-    // backgroundColor: 'yellow',
     marginTop: 15,
   },
 });

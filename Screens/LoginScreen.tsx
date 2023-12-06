@@ -6,13 +6,6 @@ function LoginScreen({navigation}): JSX.Element {
   return (
     <SafeAreaView>
       <Login navigation={navigation} />
-      {/* <Header /> */}
-      {/* <SearchBarDesign /> */}
-      {/* <Product navigation={navigation}/> */}
-      {/* <Result/> */}
-      {/* <Detail /> */}
-      {/* <Login/> */}
-      {/* <Register/> */}
     </SafeAreaView>
   );
 }
