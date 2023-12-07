@@ -17,9 +17,14 @@ import FastImage from 'react-native-fast-image';
 const maxHeight = Dimensions.get('window').height - 250;
 function Product({navigation}): JSX.Element {
   const [tab, setTab] = useState([]);
+  const [len, setLen] = useState(0);
+  const [page, setPage] = useState(1);
   const [loadOrNot, setLoadOrNot] = useState(true);
-
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalPaginationWalked, setTotalPaginationWalked] = useState(1);
   useEffect(() => {
+    setLoadOrNot(true);
     const getHome = async () => {
       try {
         const res = await fetch(BASE_URL + 'alldatas', {
@@ -29,17 +34,28 @@ function Product({navigation}): JSX.Element {
           },
           body: JSON.stringify({
             id: '123',
+            page: totalPaginationWalked,
+            totalPages: totalPages,
           }),
         });
         const resultText = await res.text();
         const data = JSON.parse(resultText);
         setTab(data.data);
+        setLen(data.data.length);
         setLoadOrNot(false);
+        setLoadingMore(false);
       } catch (error) {}
     };
     getHome();
-  }, [navigation]);
-
+  }, [totalPaginationWalked, loadingMore]);
+  const ShowNextPage = () => {
+    setLoadingMore(true);
+    setTotalPaginationWalked(totalPaginationWalked + 1);
+  };
+  const ShowPreviousPage = () => {
+    setLoadingMore(true);
+    setTotalPaginationWalked(totalPaginationWalked - 1);
+  };
   return (
     <View>
       <Text style={styles.entete}>
@@ -102,12 +118,29 @@ function Product({navigation}): JSX.Element {
             </View>
           </TouchableOpacity>
         </View>
+        {loadOrNot ? (
+          ''
+        ) : !loadingMore && totalPaginationWalked === 1 ? (
+          ''
+        ) : len === 0 ? (
+          ''
+        ) : (
+          <View style={styles.voirplus}>
+            <View style={styles.btnVoirPlus}>
+              <Text
+                style={styles.textVoirPlus}
+                onPress={() => ShowPreviousPage()}>
+                Afficher la page précédente
+              </Text>
+            </View>
+          </View>
+        )}
         <View style={styles.viewListe}>
           {loadOrNot ? (
             <View style={styles.activity}>
               <ActivityIndicator color="#52b7c6" />
             </View>
-          ) : (
+          ) : len > 0 ? (
             tab.map((elem, index) => (
               <TouchableOpacity
                 key={index}
@@ -129,8 +162,8 @@ function Product({navigation}): JSX.Element {
                       style={styles.imageToShow}
                     />
                     {/* <View style={styles.place_for_heart}>
-                  <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
-                </View> */}
+                    <FontAwesomeIcon icon={faHeart} style={styles.icon_heart} />
+                  </View> */}
                   </View>
                   <View style={styles.infoContainer}>
                     <Text style={styles.nom_fiche}>
@@ -183,6 +216,26 @@ function Product({navigation}): JSX.Element {
                 </View>
               </TouchableOpacity>
             ))
+          ) : (
+            ''
+          )}
+
+          {loadOrNot ? (
+            ''
+          ) : !loadingMore && totalPages === totalPaginationWalked ? (
+            ''
+          ) : len === 0 ? (
+            ''
+          ) : (
+            <View style={styles.voirplus}>
+              <View style={styles.btnVoirPlus}>
+                <Text
+                  style={styles.textVoirPlus}
+                  onPress={() => ShowNextPage()}>
+                  Afficher la page suivante
+                </Text>
+              </View>
+            </View>
           )}
         </View>
       </ScrollView>
