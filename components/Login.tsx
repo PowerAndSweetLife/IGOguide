@@ -11,6 +11,7 @@ import {
 import {BASE_URL} from '../helper/URL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useRoute} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 function Login({navigation}): JSX.Element {
   const [email, setEmail] = useState('');
@@ -35,11 +36,13 @@ function Login({navigation}): JSX.Element {
             mdp: mdp,
           }),
         });
+
         if (res.ok) {
           const resultText = await res.text();
           const result = JSON.parse(resultText);
 
           if (result.success) {
+            // console.log('connected');
             await AsyncStorage.setItem('id', result.data[0].users_id);
             await AsyncStorage.setItem('mail', result.data[0].users_email);
             await AsyncStorage.setItem('photo', result.data[0].users_photo);
@@ -49,6 +52,13 @@ function Login({navigation}): JSX.Element {
             } else {
               navigation.navigate('Home');
             }
+
+            Toast.show({
+              type: 'success',
+              text1: 'Connexion réussie',
+              visibilityTime: 3000,
+              autoHide: true,
+            });
           } else {
             const id = await AsyncStorage.getItem('id');
             if (id !== null) {
