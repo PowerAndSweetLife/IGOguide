@@ -6,8 +6,8 @@ function CategorieImage({imageSource}): JSX.Element {
 }
 const styles = StyleSheet.create({
   icon: {
-    width: 50,
-    height: 60,
+    width: 40,
+    height: 50,
     resizeMode: 'contain',
   },
 });

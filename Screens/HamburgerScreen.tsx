@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {SafeAreaView, View, Text, StyleSheet, Pressable} from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Linking,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function HamburgerScreen({navigation}): JSX.Element {
@@ -31,6 +38,15 @@ function HamburgerScreen({navigation}): JSX.Element {
   return (
     <SafeAreaView>
       <View style={styles.centerAll}>
+        <View>
+          <Pressable
+            onPress={() => {
+              Linking.openURL('https://igoguide.com/inscription/professionnel');
+            }}
+            style={styles.menuStyle}>
+            <Text>S'inscrire en tant que PRO</Text>
+          </Pressable>
+        </View>
         {sessionID ? (
           <View>
             <Pressable
@@ -70,7 +86,6 @@ function HamburgerScreen({navigation}): JSX.Element {
   );
 }
 
-
 const styles = StyleSheet.create({
   centerAll: {
     flexDirection: 'column',
@@ -86,6 +101,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 });
-
 
 export default HamburgerScreen;

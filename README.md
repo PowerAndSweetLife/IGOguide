@@ -55,4 +55,8 @@ Install React Native SVG
 ```bash
 npm i react-native-svg
 ```
-    
+Google Maps Key
+
+```
+AIzaSyAY-9G1CfAwFqyv5D2ip0B4Yf35jY6O0qk
+```

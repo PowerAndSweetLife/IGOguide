@@ -58,9 +58,11 @@ function Product({navigation}): JSX.Element {
   };
   return (
     <View>
-      <Text style={styles.entete}>
-        Faites vos recherches avec les catégories suivantes
-      </Text>
+      <View style={styles.centerEntete}>
+        <Text style={styles.entete}>
+          Faites vos recherches avec les catégories suivantes
+        </Text>
+      </View>
       <ScrollView style={styles.scroller}>
         <View style={styles.content}>
           <TouchableOpacity
@@ -247,10 +249,10 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 10,
     flexWrap: 'wrap',
-    paddingLeft: 25,
-    paddingRight: 25,
-    justifyContent: 'center',
+    paddingLeft: 15,
+    paddingRight: 15,
     flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   scroller: {
     height: maxHeight,
@@ -266,29 +268,35 @@ const styles = StyleSheet.create({
     paddingRight: 25,
   },
   contentCategorie: {
-    width: 150,
-    height: 150,
+    width: 30,
+    height: 120,
     marginRight: 5,
     marginLeft: 5,
     marginBottom: 10,
     borderRadius: 10,
     padding: 41,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: '#dddddd',
-    borderWidth: 1,
+    // borderColor: '#dddddd',
+    // borderWidth: 1,
+  },
+  centerEntete: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
   entete: {
     fontWeight: 'bold',
     fontSize: 15,
     marginBottom: 10,
     // marginTop: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 20,
+    paddingRight: 20,
     marginLeft: 10,
     marginRight: 10,
     textAlign: 'center',
+    width: '80%',
   },
   container: {
     paddingLeft: 25,
@@ -382,6 +390,8 @@ const styles = StyleSheet.create({
   },
   touchableProperty: {
     marginBottom: 15,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   place_for_owner: {
     borderWidth: 1,
@@ -427,13 +437,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textCateg: {
-    width: 105,
+    width: 50,
     // backgroundColor: 'red',
     paddingLeft: 5,
     paddingRight: 5,
     marginTop: 5,
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 'bold',
   },
 });

@@ -25,6 +25,7 @@ function ResultSearchBar({navigation}): JSX.Element {
   const [len, setLen] = useState(0);
   const [loadOrNot, setLoadOrNot] = useState(true);
   const ScrollViewRef = useRef();
+
   const getData = async () => {
     try {
       const res = await fetch(BASE_URL + 'globallySearch', {
@@ -37,9 +38,12 @@ function ResultSearchBar({navigation}): JSX.Element {
           loc: loc,
         }),
       });
+
       if (res.ok) {
         const resultatText = await res.text();
         const result = JSON.parse(resultatText);
+        // console.log(resultatText);
+
         setLen(result.data.length);
         setTab(result.data);
       }

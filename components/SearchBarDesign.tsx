@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
   },
   searchBarContainer: {
     margin: 22,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   iconReform: {
     marginLeft: 5,
